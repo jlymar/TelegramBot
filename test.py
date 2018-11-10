@@ -1,4 +1,4 @@
-from twilio.rest import Client
+# from twilio.rest import Client
 
 
 # # Your Account Sid and Auth Token from twilio.com/console
@@ -14,6 +14,50 @@ from twilio.rest import Client
 #
 # print(call.sid)
 
+
+
+
+
+
+from twilio.rest import Client
+from  twilio.twiml.voice_response import VoiceResponse
+from urllib.parse import urlencode
+
+# Your Account Sid and Auth Token from twilio.com/console
+account_sid = 'AC1e3a0dedbebe1ff677302e6436b59792'
+auth_token = 'e72aed42d09e8e28b9b521e5b8518b95'
+client = Client(account_sid, auth_token)
+
+# Use the Twilio-provided site for the TwiML response.
+url = "http://twimlets.com/message?"
+
+# The phone message text.
+message = "Hello world."
+
+call = client.calls.create(
+                        url='https://handler.twilio.com/twiml/EHba3d144940b832f2a9cc667b546b4091',
+                        to='+380938482501',
+                        from_='+15172732542'
+                    )
+
+print('Serving TwiML')
+twiml_response = VoiceResponse()
+twiml_response.say('Hello!')
+twiml_response.hangup()
+twiml_xml = twiml_response.to_xml()
+print('Generated twiml: {}'.format(twiml_xml))
+
+print(call.sid)
+
+
+
+
+
+
+
+
+
+"""
 from twilio.twiml.voice_response import Play, VoiceResponse
 
 response = VoiceResponse()
@@ -55,25 +99,27 @@ response.say('I did not receive a recording')
 print(response)
 
 
+
+
+
+
+
+
+
+
+
+
+print('Making a call...')
+new_call = client.calls.create(to='XXXX', from_='YYYY', method='GET')
+
+print('Serving TwiML')
+twiml_response = VoiceResponse()
+twiml_response.say('Hello!')
+twiml_response.hangup()
+twiml_xml = twiml_response.to_xml()
+print('Generated twiml: {}'.format(twiml_xml))
 """
-
-
-params = {
-    'to': '2222222222',    # The phone numer to which the call will be placed     
-    'from' : '1111111111', # The phone number to be used as the caller id 
-    # answer_url is the URL invoked by Plivo when the outbound call is answered     
-    # and contains instructions telling Plivo what to do with the call     
-    'answer_url' : "https://s3.amazonaws.com/static.plivo.com/answer.xml",
-    'answer_method' : "GET", # The method used to call the answer_url  }
-
-# Make an outbound call and print the response response = p.make_call(params)
-print str(response)
-
-
-
-
-
-https://pythonspot.com/
+"""
 
 https://www.twilio.com/docs/voice/tutorials/ivr-phone-tree-python-flask
 

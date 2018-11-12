@@ -25,7 +25,7 @@ action ==> url webhook-а который обработает спич2текс�
 input ==> speech/digit
 speechTimeout ==> после какой паузы в речи (в секундах) заканчивать запись
 """
-gather = Gather(action='https://910224e8.ngrok.io/outbound1', input='speech', speechTimeout='auto')
+gather = Gather(action='http://28e81dff.ngrok.io/outbound1', input='speech', speechTimeout='auto')
 
 #twiML текст2спич
 gather.say('say yes if you would like hear Vlad?')

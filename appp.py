@@ -12,7 +12,7 @@ def outbound1():
     #print(doc.ents)
     '''
     
-    if 'Color' in doc.ents.values:
+    if 'Color' in doc.ents.keys:
         add to db and form next question
     else:
         form reanswer request

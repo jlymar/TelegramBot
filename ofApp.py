@@ -289,6 +289,7 @@ def outbound7():
 
 
 
+
 @app.route('/outbound8', methods=['GET', 'POST'])  # работа с вебом
 def outbound8():
     global step

@@ -62,6 +62,7 @@ def outboundRepeat():
     return response.to_xml()
 
 
+
 @app.route('/outboundGlobalN', methods=['GET', 'POST'])  # работа с вебом
 def outboundGlobalN(positive_text, negative_text, positive_hint=''):
     global positiv, negativ

@@ -59,12 +59,11 @@ def outboundRepeat():
     gather.say('could you reapeat your answer, please')
     response.append(gather)
     response.say('We didn\'t receive any input. Goodbye!')
-    twiml_xml = response.to_xml()
-    return str(twiml_xml)
+    return response.to_xml()
 
 
-@app.route('/outboundGlobal', methods=['GET', 'POST'])  # работа с вебом
-def outboundGlobal(positive_text, negative_text, positive_hint=''):
+@app.route('/outboundGlobalN', methods=['GET', 'POST'])  # работа с вебом
+def outboundGlobalN(positive_text, negative_text, positive_hint=''):
     global positiv, negativ
     outboundCheck(request.form.get('SpeechResult'))
 
@@ -76,68 +75,47 @@ def outboundGlobal(positive_text, negative_text, positive_hint=''):
         twiml_xml = outboundN(negative_text)
 
     else:
-        return outboundRepeat()
+        twiml_xml = outboundRepeat()
 
     return str(twiml_xml)
 
 
-@app.route('/outbound1', methods=['GET', 'POST'])  # работа с вебом
-def outbound1():
+@app.route('/outboundGlobalP', methods=['GET', 'POST'])  # работа с вебом
+def outboundGlobalP(positive_text, negative_text, positive_hint='', negative_hint=''):
     global positiv, negativ
     outboundCheck(request.form.get('SpeechResult'))
 
     if positiv:
-        twiml_xml = outboundP(text='Hi, my name is Gary I am calling from a company called "Sell my car" we buy cars direct from consumers.'
-                   'Would you be interested in us making you an offer for your car? It takes just two minutes, and is valid for 7 days.',
-                              hints='')
+        twiml_xml = outboundP(text=positive_text,
+                              hints=positive_hint)
 
     elif negativ:
-        twiml_xml = outboundN('Take care and goodbye for now.')
-
+        twiml_xml = outboundP(text=negative_text,
+            hints=negative_hint, sufix='_1', add_step=False)
     else:
-        return outboundRepeat()
+        twiml_xml = outboundRepeat()
 
-    return str(twiml_xml)  # twiML в конце перевожу в строку, потому что так было в примерчике
+    return str(twiml_xml)
+
+@app.route('/outbound1', methods=['GET', 'POST'])  # работа с вебом
+def outbound1():
+    return outboundGlobalN(positive_text='Hi, my name is Gary I am calling from a company called "Sell my car" we buy cars direct from consumers.'
+                   'Would you be interested in us making you an offer for your car? It takes just two minutes, and is valid for 7 days.',
+                          positive_hint='', negative_text='Take care and goodbye for now.')
 
 
 @app.route('/outbound2', methods=['GET', 'POST'])  # работа с вебом
 def outbound2():
-    global positiv, negativ
-    outboundCheck(request.form.get('SpeechResult'))
-
-    if positiv:
-        twiml_xml = outboundP(
-            text='Can I start by confirming your vehicle registration number is?' + '',
-            hints='')
-
-    elif negativ:
-        twiml_xml = outboundN('OK, thanks and sorry for bothering you.')
-
-    else:
-        return outboundRepeat()
-
-    return str(twiml_xml)  # twiML в конце перевожу в строку, потому что так было в примерчике
+    return outboundGlobalN(
+        positive_text='Can I start by confirming your vehicle registration number is?' + '',
+        positive_hint='', negative_text='OK, thanks and sorry for bothering you.')
 
 
 @app.route('/outbound3', methods=['GET', 'POST'])  # работа с вебом
 def outbound3():
-    global positiv, negativ
-    outboundCheck(request.form.get('SpeechResult'))
-
-    if positiv:
-        twiml_xml = outboundP(
-            text='Can I confirm the mileage as ?' + '',
-            hints='')
-
-    elif negativ:
-        twiml_xml = outboundP(
-            text='Sorry can I take your registration please?',
-            hints='', sufix='_1', add_step=False)
-
-    else:
-        return outboundRepeat()
-
-    return str(twiml_xml)  # twiML в конце перевожу в строку, потому что так было в примерчике
+    return outboundGlobalP(
+        positive_text='Can I confirm the mileage as ?' + '',
+        positive_hint='', negative_text='Sorry can I take your registration please?', negative_hint='')
 
 
 @app.route('/outbound3_1', methods=['GET', 'POST'])  # работа с вебом
@@ -160,30 +138,16 @@ def outbound3_1():
         twiml_xml = outboundN('OK, thanks and sorry for bothering you.')
 
     else:
-        return outboundRepeat()
+        twiml_xml = outboundRepeat()
 
     return str(twiml_xml)
 
 
 @app.route('/outbound4', methods=['GET', 'POST'])  # работа с вебом
 def outbound4():
-    global positiv, negativ
-    outboundCheck(request.form.get('SpeechResult'))
-
-    if positiv:
-        twiml_xml = outboundP(
-            text='Can I just confirm you live in ?' + '',
-            hints='')
-
-    elif negativ:
-        twiml_xml = outboundP(
-            text='What is the correct mileage please?',
-            hints='', sufix='_1', add_step=False)
-
-    else:
-        return outboundRepeat()
-
-    return str(twiml_xml)  # twiML в конце перевожу в строку, потому что так было в примерчике
+    return outboundGlobalP(
+        positive_text='Can I just confirm you live in ?' + '',
+        positive_hint='', negative_text='What is the correct mileage please?', negative_hint='')
 
 
 @app.route('/outbound4_1', methods=['GET', 'POST'])  # работа с вебом
@@ -206,30 +170,16 @@ def outbound4_1():
         twiml_xml = outboundN('OK, thanks and sorry for bothering you.')
 
     else:
-        return outboundRepeat()
+        twiml_xml = outboundRepeat()
 
     return str(twiml_xml)
 
 
 @app.route('/outbound5', methods=['GET', 'POST'])  # работа с вебом
 def outbound5():
-    global positiv, negativ
-    outboundCheck(request.form.get('SpeechResult'))
-
-    if positiv:
-        twiml_xml = outboundP(
-            text='Can I confirm that your mobile number is ?' + '',
-            hints='')
-
-    elif negativ:
-        twiml_xml = outboundP(
-            text='What is the nearest town or city to you?',
-            hints='', sufix='_1', add_step=False)
-
-    else:
-        return outboundRepeat()
-
-    return str(twiml_xml)  # twiML в конце перевожу в строку, потому что так было в примерчике
+    return outboundGlobalP(
+        positive_text='Can I confirm that your mobile number is ?' + '',
+        positive_hint='', negative_text='What is the nearest town or city to you?', negative_hint='')
 
 
 @app.route('/outbound5_1', methods=['GET', 'POST'])  # работа с вебом
@@ -252,33 +202,21 @@ def outbound5_1():
         twiml_xml = outboundN('OK, thanks and sorry for bothering you.')
 
     else:
-        return outboundRepeat()
+        twiml_xml = outboundRepeat()
 
     return str(twiml_xml)
 
 
 @app.route('/outbound6', methods=['GET', 'POST'])  # работа с вебом
 def outbound6():
-    global positiv, negativ
-    outboundCheck(request.form.get('SpeechResult'))
-
-    if positiv:
-        twiml_xml = outboundP(
-            text='Which of the following describes your car service history'
+    return outboundGlobalP(
+        positive_text='Which of the following describes your car service history'
                     'A. Full service history'
                     'B. Part service history'
                     'C. No service history',
-            hints='')
-
-    elif negativ:
-        twiml_xml = outboundP(
-            text='Can I take your mobile number please? We need this so we can text you your offer.',
-            hints='', sufix='_1', add_step=False)
-
-    else:
-        return outboundRepeat()
-
-    return str(twiml_xml)  # twiML в конце перевожу в строку, потому что так было в примерчике
+        positive_hint='',
+        negative_text='Can I take your mobile number please? We need this so we can text you your offer.',
+        negative_hint='')
 
 
 @app.route('/outbound6_1', methods=['GET', 'POST'])  # работа с вебом
@@ -304,7 +242,7 @@ def outbound6_1():
         twiml_xml = outboundN('OK, thanks and sorry for bothering you.')
 
     else:
-        return outboundRepeat()
+        twiml_xml = outboundRepeat()
 
     return str(twiml_xml)
 

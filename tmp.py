@@ -1,10 +1,53 @@
 import spacy
 import time
 
+# from spacy.language import Language
+# nlp = Language().from_disk('/home/user/Model1')
+nlp = spacy.load('/home/user/Model1')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 """
-nlp = spacy.load('en_core_web_sm')
-
-
 
 start = time.time()
 # Process whole documents
@@ -13,16 +56,29 @@ text = (u"When Sebastian Thrun started working on self-driving cars at "
         u"seriously. “I can tell you very senior CEOs of major American "
         u"car companies would shake my hand and turn away because I wasn’t "
         u"worth talking to,” said Thrun, now the co-founder and CEO of "
-        u"online higher education startup Udacity, in an interview with "
+        u"online higher education startup Udacity, in an interview with? yes or not "
         u"Recode earlier this week.")
 doc = nlp(text)
 
 # Find named entities, phrases and concepts
-for entity in doc.ents:
-    print(entity.text, entity.label_)
+for ent in doc.ents:
+    print(ent.label_, ent.text)
 finish1 = time.time() - start
 
 
+output_dir='/home/user/Model1'
+test_text = 'yes it is still available but I am at work right now, can I call you back?'
+print("Loading from", output_dir)
+nlp2 = spacy.load(output_dir)
+doc2 = nlp2(test_text)
+for ent in doc2.ents:
+    print(ent.label_, ent.text)
+
+"""
+
+
+
+'''
 nlp = spacy.load('en_core_web_lg')
 
 
@@ -46,10 +102,9 @@ finish2 = time.time() - start
 
 
 print(finish1, "/////", finish2)
+'''
 
-"""
-
-
+'''
 
 from PIL import ImageFont, ImageDraw, Image
 import numpy as np
@@ -112,3 +167,5 @@ for r in range(rtc+1):
 
 
 cv2.destroyAllWindows()
+
+'''

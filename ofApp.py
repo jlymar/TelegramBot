@@ -55,7 +55,6 @@ def outboundCheck(strr):
 def outboundRepeat():
     global step, ngrok_url
     response = VoiceResponse()
-
     gather = Gather(action=ngrok_url + str(step), input='speech', speechTimeout='auto')
     gather.say('could you reapeat your answer, please')
     response.append(gather)

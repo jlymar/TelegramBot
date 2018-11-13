@@ -28,7 +28,16 @@ speechTimeout ==> после какой паузы в речи (в секунд�
 gather = Gather(action='http://28e81dff.ngrok.io/outbound1', input='speech', speechTimeout='auto')
 
 #twiML текст2спич
-gather.say('say yes if you would like hear Vlad?')
+gather.say('Hi, I am phoning about your car, is it still available?')
+
+#twiML добавить гезер в респонс
+response.append(gather)
+
+
+gather = Gather(action='http://28e81dff.ngrok.io/outbound1', input='speech', speechTimeout='auto')
+
+#twiML текст2спич
+gather.say('could you reapeat your answer, please')
 
 #twiML добавить гезер в респонс
 response.append(gather)

@@ -4,6 +4,7 @@ import spacy
 from  ents import Ents
 
 ngrok_url = 'https://71dd78c8.ngrok.io/outbound'
+___ = ''
 nlp = spacy.load('en_core_web_sm')
 entities = Ents()
 step = 1

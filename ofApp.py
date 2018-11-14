@@ -56,10 +56,10 @@ def outboundCheck(strr):
 
 
 @app.route('/outboundRepeat', methods=['GET', 'POST'])  # работа с вебом
-def outboundRepeat():
+def outboundRepeat(sufix=''):
     global step, ngrok_url
     response = VoiceResponse()
-    gather = Gather(action=ngrok_url + str(step), input='speech', speechTimeout='auto')
+    gather = Gather(action=ngrok_url + str(step) + sufix, input='speech', speechTimeout='auto')
     gather.say('could you repeat your answer, please')
     response.append(gather)
     response.say('We didn\'t receive any input. Goodbye!')
@@ -107,7 +107,7 @@ def outboundGlobalP(positive_text, negative_text, request, positive_hint='', neg
 def outbound1():
     strr = request.form.get('SpeechResult')
     return outboundGlobalN(positive_text='Hi, my name is Gary I am calling from a company called "Sell my car" we buy cars direct from consumers.'
-                   'Would you be interested in us making you an offer for your car? It takes just two minutes, and is valid for 7 days.',
+                                        'Would you be interested in us making you an offer for your car? It takes just two minutes, and is valid for 7 days.',
                           positive_hint='', request=strr, negative_text='Take care and goodbye for now.')
 
 
@@ -137,8 +137,9 @@ def outbound3_1():
 
     doc = nlp(strr)
     """
-    
-    
+    find number of car
+    CARDINAL(12231)
+    -->leters(a b c d)
     """
     found = True
     if found:
@@ -149,7 +150,7 @@ def outbound3_1():
         twiml_xml = outboundN('OK, thanks and sorry for bothering you.')
 
     else:
-        twiml_xml = outboundRepeat()
+        twiml_xml = outboundRepeat(sufix='_1')
 
     return str(twiml_xml)
 
@@ -171,7 +172,9 @@ def outbound4_1():
 
     doc = nlp(strr)
     """
-
+    find number of miles
+    CARDINAL(12231)
+    QUANTITY(miles, ml)
 
     """
     found = True
@@ -183,7 +186,7 @@ def outbound4_1():
         twiml_xml = outboundN('OK, thanks and sorry for bothering you.')
 
     else:
-        twiml_xml = outboundRepeat()
+        twiml_xml = outboundRepeat(sufix='_1')
 
     return str(twiml_xml)
 
@@ -205,7 +208,8 @@ def outbound5_1():
 
     doc = nlp(strr)
     """
-
+    find city
+        GPE(london, N.Y.)
 
     """
     found = True
@@ -217,7 +221,7 @@ def outbound5_1():
         twiml_xml = outboundN('OK, thanks and sorry for bothering you.')
 
     else:
-        twiml_xml = outboundRepeat()
+        twiml_xml = outboundRepeat(sufix='_1')
 
     return str(twiml_xml)
 
@@ -244,7 +248,8 @@ def outbound6_1():
 
     doc = nlp(strr)
     """
-
+    find mobile number
+    CARDINAL(12231)
 
     """
     found = True
@@ -259,26 +264,35 @@ def outbound6_1():
         twiml_xml = outboundN('OK, thanks and sorry for bothering you.')
 
     else:
-        twiml_xml = outboundRepeat()
+        twiml_xml = outboundRepeat(sufix='_1')
 
     return str(twiml_xml)
 
 
 @app.route('/outbound7', methods=['GET', 'POST'])  # работа с вебом
 def outbound7():
+    global step
     strr = request.form.get('SpeechResult')  # работа с вебом
     doc = nlp(strr)
     """
+    find kind of service history
+    -->leters(a b c d)
+    -->kinds (Full service history  Part service history)
 
 
     """
-
-    twiml_xml = outboundP(
+    found = True
+    if found:
+        step += 1
+        twiml_xml = outboundP(
             text='''OK, thats the questions completed. In the next few minutes you will receive an offer from ourselves and a link to our website,
-     where you can accept or decline our offer. If you choose to accept our offer you will then be able to book an appointment to drop your car off and collect your payment. 
-     This can be done in as little as two hours. Thank you for your time today, I really hope you find our offer acceptable?
-    ''',
+                    where you can accept or decline our offer. If you choose to accept our offer you will then be able to book an appointment to drop your car off and collect your payment. 
+                    This can be done in as little as two hours. Thank you for your time today, I really hope you find our offer acceptable?
+                    ''',
             hints='')
+
+    else:
+        twiml_xml = outboundRepeat()
 
     return str(twiml_xml)  # twiML в конце перевожу в строку, потому что так было в примерчике
 

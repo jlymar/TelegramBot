@@ -18,7 +18,7 @@ def outboundP(text, hints, sufix='', add_step=True):
     if add_step:
         step += 1
     twiml_response = VoiceResponse()
-    gather = Gather(action=ngrok_url + str(step) + sufix, input='speech', speechTimeout='auto', hints=hints)
+    gather = Gather(action=ngrok_url + str(step) + sufix, input='speech', speechTimeout=3, hints=hints)
     gather.say(text)
     twiml_response.append(gather)
     twiml_response.say('We didn\'t receive any input. Goodbye!')
@@ -59,7 +59,7 @@ def outboundCheck(strr):
 def outboundRepeat(sufix=''):
     global step, ngrok_url
     response = VoiceResponse()
-    gather = Gather(action=ngrok_url + str(step) + sufix, input='speech', speechTimeout='auto')
+    gather = Gather(action=ngrok_url + str(step) + sufix, input='speech', speechTimeout=3)
     gather.say('could you repeat your answer, please')
     response.append(gather)
     response.say('We didn\'t receive any input. Goodbye!')
@@ -71,7 +71,6 @@ def outboundRepeat(sufix=''):
 def outboundGlobalN(positive_text, negative_text, request, positive_hint=''):
     global positiv, negativ
     outboundCheck(request)
-    print(2)
 
     if positiv:
         twiml_xml = outboundP(text=positive_text,
@@ -105,8 +104,10 @@ def outboundGlobalP(positive_text, negative_text, request, positive_hint='', neg
 
 @app.route('/outbound1', methods=['GET', 'POST'])  # работа с вебом
 def outbound1():
+    global step
+    step = 1
     strr = request.form.get('SpeechResult')
-    return outboundGlobalN(positive_text='Hi, my name is Gary I am calling from a company called "Sell my car" we buy cars direct from consumers.'
+    return outboundGlobalN(positive_text='my name is Gary I am calling from a company called "Sell my car" we buy cars direct from consumers.'
                                         'Would you be interested in us making you an offer for your car? It takes just two minutes, and is valid for 7 days.',
                           positive_hint='', request=strr, negative_text='Take care and goodbye for now.')
 

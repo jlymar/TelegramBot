@@ -1,3 +1,4 @@
+from nltk import FreqDist
 from twilio.rest import Client
 from  twilio.twiml.voice_response import VoiceResponse, Gather, Say
 from urllib.parse import urlencode
@@ -15,7 +16,7 @@ echo_ur = 'http://twimlets.com/echo?'
 
 #twiML элемент response с него всегда нужно начинать twiML
 response = VoiceResponse()
-
+FreqDist
 """
 Gather ==> тег собиратель данных. 
 может возвращать цифры нажатые на клаве телефона.
@@ -25,7 +26,7 @@ action ==> url webhook-а который обработает спич2текс�
 input ==> speech/digit
 speechTimeout ==> после какой паузы в речи (в секундах) заканчивать запись
 """
-gather = Gather(action='https://71dd78c8.ngrok.io/outbound1', input='speech', speechTimeout='auto')
+gather = Gather(action='https://71dd78c8.ngrok.io/outbound1', input='speech', speechTimeout=3)
 
 #twiML текст2спич
 gather.say('Hi, I am phoning about your car, is it still available?')
@@ -34,7 +35,7 @@ gather.say('Hi, I am phoning about your car, is it still available?')
 response.append(gather)
 
 
-gather = Gather(action='https://71dd78c8.ngrok.io/outbound1', input='speech', speechTimeout='auto')
+gather = Gather(action='https://71dd78c8.ngrok.io/outbound1', input='speech', speechTimeout=3)
 
 #twiML текст2спич
 gather.say('could you reapeat your answer, please')

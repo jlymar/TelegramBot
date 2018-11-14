@@ -3,8 +3,8 @@ from twilio.twiml.voice_response import VoiceResponse, Gather
 import spacy
 from  ents import Ents
 
-ngrok_url = 'http://28e81dff.ngrok.io/outbound'
-nlp = spacy.load('en_core_web_sm')  # type: object
+ngrok_url = 'https://71dd78c8.ngrok.io/outbound'
+nlp = spacy.load('en_core_web_sm')
 entities = Ents()
 step = 1
 negativ = False
@@ -37,15 +37,19 @@ def outboundN(text):
 def outboundCheck(strr):
     global positiv, negativ
     positiv, negativ = (False, False)
-
+    strr = strr.lower()
     print(strr)
 
-    for i in entities.positive and not positiv:
+    for i in entities.positive:
+        if positiv:
+            break
         indx = strr.find(i)
         if indx != -1:
             positiv = True
 
-    for i in entities.negative and not negativ:
+    for i in entities.negative:
+        if negativ:
+            break
         indx = strr.find(i)
         if indx != -1:
             negativ = True
@@ -56,7 +60,7 @@ def outboundRepeat():
     global step, ngrok_url
     response = VoiceResponse()
     gather = Gather(action=ngrok_url + str(step), input='speech', speechTimeout='auto')
-    gather.say('could you reapeat your answer, please')
+    gather.say('could you repeat your answer, please')
     response.append(gather)
     response.say('We didn\'t receive any input. Goodbye!')
     return response.to_xml()
@@ -64,9 +68,10 @@ def outboundRepeat():
 
 
 @app.route('/outboundGlobalN', methods=['GET', 'POST'])  # работа с вебом
-def outboundGlobalN(positive_text, negative_text, positive_hint=''):
+def outboundGlobalN(positive_text, negative_text, request, positive_hint=''):
     global positiv, negativ
-    outboundCheck(request.form.get('SpeechResult'))
+    outboundCheck(request)
+    print(2)
 
     if positiv:
         twiml_xml = outboundP(text=positive_text,
@@ -82,9 +87,9 @@ def outboundGlobalN(positive_text, negative_text, positive_hint=''):
 
 
 @app.route('/outboundGlobalP', methods=['GET', 'POST'])  # работа с вебом
-def outboundGlobalP(positive_text, negative_text, positive_hint='', negative_hint=''):
+def outboundGlobalP(positive_text, negative_text, request, positive_hint='', negative_hint=''):
     global positiv, negativ
-    outboundCheck(request.form.get('SpeechResult'))
+    outboundCheck(request)
 
     if positiv:
         twiml_xml = outboundP(text=positive_text,
@@ -100,23 +105,28 @@ def outboundGlobalP(positive_text, negative_text, positive_hint='', negative_hin
 
 @app.route('/outbound1', methods=['GET', 'POST'])  # работа с вебом
 def outbound1():
+    strr = request.form.get('SpeechResult')
     return outboundGlobalN(positive_text='Hi, my name is Gary I am calling from a company called "Sell my car" we buy cars direct from consumers.'
                    'Would you be interested in us making you an offer for your car? It takes just two minutes, and is valid for 7 days.',
-                          positive_hint='', negative_text='Take care and goodbye for now.')
+                          positive_hint='', request=strr, negative_text='Take care and goodbye for now.')
 
 
 @app.route('/outbound2', methods=['GET', 'POST'])  # работа с вебом
 def outbound2():
+    strr = request.form.get('SpeechResult')
+
     return outboundGlobalN(
         positive_text='Can I start by confirming your vehicle registration number is?' + '',
-        positive_hint='', negative_text='OK, thanks and sorry for bothering you.')
+        positive_hint='', request=strr, negative_text='OK, thanks and sorry for bothering you.')
 
 
 @app.route('/outbound3', methods=['GET', 'POST'])  # работа с вебом
 def outbound3():
+    strr = request.form.get('SpeechResult')
+
     return outboundGlobalP(
         positive_text='Can I confirm the mileage as ?' + '',
-        positive_hint='', negative_text='Sorry can I take your registration please?', negative_hint='')
+        positive_hint='', request=strr, negative_text='Sorry can I take your registration please?', negative_hint='')
 
 
 @app.route('/outbound3_1', methods=['GET', 'POST'])  # работа с вебом
@@ -146,9 +156,11 @@ def outbound3_1():
 
 @app.route('/outbound4', methods=['GET', 'POST'])  # работа с вебом
 def outbound4():
+    strr = request.form.get('SpeechResult')
+
     return outboundGlobalP(
         positive_text='Can I just confirm you live in ?' + '',
-        positive_hint='', negative_text='What is the correct mileage please?', negative_hint='')
+        positive_hint='', request=strr, negative_text='What is the correct mileage please?', negative_hint='')
 
 
 @app.route('/outbound4_1', methods=['GET', 'POST'])  # работа с вебом
@@ -178,9 +190,11 @@ def outbound4_1():
 
 @app.route('/outbound5', methods=['GET', 'POST'])  # работа с вебом
 def outbound5():
+    strr = request.form.get('SpeechResult')
+
     return outboundGlobalP(
         positive_text='Can I confirm that your mobile number is ?' + '',
-        positive_hint='', negative_text='What is the nearest town or city to you?', negative_hint='')
+        positive_hint='', request=strr, negative_text='What is the nearest town or city to you?', negative_hint='')
 
 
 @app.route('/outbound5_1', methods=['GET', 'POST'])  # работа с вебом
@@ -210,12 +224,14 @@ def outbound5_1():
 
 @app.route('/outbound6', methods=['GET', 'POST'])  # работа с вебом
 def outbound6():
+    strr = request.form.get('SpeechResult')
+
     return outboundGlobalP(
         positive_text='Which of the following describes your car service history'
                     'A. Full service history'
                     'B. Part service history'
                     'C. No service history',
-        positive_hint='',
+        positive_hint='', request=strr,
         negative_text='Can I take your mobile number please? We need this so we can text you your offer.',
         negative_hint='')
 

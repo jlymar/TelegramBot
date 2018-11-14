@@ -3,8 +3,8 @@ from  twilio.twiml.voice_response import VoiceResponse, Gather, Say
 from urllib.parse import urlencode
 
 # Your Account Sid and Auth Token from twilio.com/console
-account_sid = 'AC1e3a0dedbebe1ff677302e6436b59792'
-auth_token = 'e72aed42d09e8e28b9b521e5b8518b95'
+account_sid = 'AC671c96430c658ba3dcad064799a76411'
+auth_token = '99cd9a620ebde1854eb5ba2b6ac31eaa'
 client = Client(account_sid, auth_token)
 
 # начало url для Say
@@ -25,7 +25,7 @@ action ==> url webhook-а который обработает спич2текс�
 input ==> speech/digit
 speechTimeout ==> после какой паузы в речи (в секундах) заканчивать запись
 """
-gather = Gather(action='http://28e81dff.ngrok.io/outbound1', input='speech', speechTimeout='auto')
+gather = Gather(action='https://71dd78c8.ngrok.io/outbound1', input='speech', speechTimeout='auto')
 
 #twiML текст2спич
 gather.say('Hi, I am phoning about your car, is it still available?')
@@ -34,7 +34,7 @@ gather.say('Hi, I am phoning about your car, is it still available?')
 response.append(gather)
 
 
-gather = Gather(action='http://28e81dff.ngrok.io/outbound1', input='speech', speechTimeout='auto')
+gather = Gather(action='https://71dd78c8.ngrok.io/outbound1', input='speech', speechTimeout='auto')
 
 #twiML текст2спич
 gather.say('could you reapeat your answer, please')
@@ -51,8 +51,8 @@ twiml_xml = response.to_xml()
 # инициализировать звонок используя начало url и twiML переделаный в url адресс
 call = client.calls.create(
                         url=echo_ur + urlencode({'Twiml': twiml_xml}),
-                        to='+380938482501',
-                        from_='+15172732542')
+                        to='+380959293096',
+                        from_='+14302058972')
 
 
 

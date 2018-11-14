@@ -1,11 +1,11 @@
 class Ents:
-    positive = ["Yes", "Ok", "Yeh", "Yep", "Correct", "affirmative", "perfect", "still available", "Yes, it is",
-                "Ok thats great", "Perfect, thanks", "thank you for contact me", "whats the offer",
-                "Thanks for the offer", "Cool", "Yes please", "why not", "if its free", 'accept']
+    positive = ["yes", "ok", "yeh", "yep", "correct", "affirmative", "perfect", "still available", "yes, it is",
+                "ok thats great", "perfect, thanks", "thank you for contact me", "whats the offer",
+                "thanks for the offer", "cool", "yes please", "why not", "if its free", 'accept']
 
-    negative = ["Sorry it's sold", "Sorry, sold", "It's gone", "Sold it", "Sold it last week",
-                'Sold it', "Sold", "I don't have a car for sale", "You have missed it", "No",
-                "No thanks", "Not for me", "I don't think so", "Fuck off", "Piss off", "Thats not my",
-                "I don't own", "Thats not correct", "thats not", 'is wrong', "Thats not", "I live in",
-                "where did you get", "Why do you need to know that?", "That's not", "My mobile is",
-                "Don't know", "what is service history", 'I have lost', "Not interested", "Don't", 'changed my mind']
+    negative = ["sorry it's sold", "sorry, sold", "it's gone", "sold it", "sold it last week",
+                'sold it', "sold", "i don't have a car for sale", "you have missed it", "no",
+                "no thanks", "not for me", "i don't think so", "fuck off", "piss off", "thats not my",
+                "i don't own", "thats not correct", "thats not", 'is wrong', "thats not", "i live in",
+                "where did you get", "why do you need to know that?", "that's not", "my mobile is",
+                "don't know", "what is service history", 'i have lost', "not interested", "don't", 'changed my mind']

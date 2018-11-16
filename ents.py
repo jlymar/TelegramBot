@@ -1,9 +1,9 @@
 class Ents:
-    positive = ["yes", "ok", "yeh", "yep", "correct", "affirmative", "perfect", "still available", "yes, it is",
+    positive = ["yes", "exactly", "you are right", "just so", "ok", "yeh", "yep", "correct", "affirmative", "perfect", "still available", "yes, it is",
                 "ok thats great", "perfect, thanks", "thank you for contact me", "whats the offer",
-                "thanks for the offer", "cool", "yes please", "why not", "if its free", 'accept']
+                "thanks for the offer", "cool", "yes please", "why not", "if its free", "accept", "precisely", "you may well say so"]
 
-    negative = ["sorry it's sold", "sorry, sold", "it's gone", "sold it", "sold it last week",
+    negative = ["sorry it's sold", "no way", "sorry, sold", "it's gone", "sold it", "sold it last week",
                 'sold it', "sold", "i don't have a car for sale", "you have missed it", "no",
                 "no thanks", "not for me", "i don't think so", "fuck off", "piss off", "thats not my",
                 "i don't own", "thats not correct", "thats not", 'is wrong', "thats not", "i live in",

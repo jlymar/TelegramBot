@@ -169,13 +169,54 @@ if __name__ == "__main__":
     incorrectLiterals=[]
     #os.chdir('Test_car_images_dataset')
     #os.chdir('cars')
-    os.chdir("C:/plates-5-master/ALPR-master/Main Program/cars/")
+    #os.chdir("C:/plates-5-master/ALPR-master/Main Program/cars/ne-norm")
+    os.chdir("C:/plates-5-master/ALPR-master/Main Program/cars/norm/")    
     for f in os.listdir():
         imgNum+=1
         y_test,ext = os.path.splitext(f)
         y_pred,_ = main(f)
         length = len(y_test)
         #length = length + len(y_test)
+        
+        list1 = list(y_pred)
+        for t in range(len(y_pred)):
+            #print('t', t)
+            #на первой позиции в номерах машин не должно быть 0(нуля)
+            if y_pred[0] == '0':
+                    list1[0] = 'O'
+                    y_pred = ''.join(list1)
+            else: 
+                #на позиции с 2 по 4 не должно быть букв О
+                if t in range(1,4):
+                    if y_pred[t] == 'O':
+                        list1[t] = '0'
+                        y_pred = ''.join(list1)
+                #на позициях 3,4 не должно быть букв(не учитывая номера до 1972 года)
+                if t in range(1,4):
+                    if y_pred[t] == 'S':
+                        list1[t] = '5'
+                        y_pred = ''.join(list1)    
+                    elif y_pred[t] == 'B':
+                        list1[t] = '6'
+                        y_pred = ''.join(list1)
+                    elif y_pred[t] == 'T':
+                        list1[t] = '1'
+                        y_pred = ''.join(list1) 
+                #на позициях с 5 по 7 не должно быть нулей и вообще там только буквы
+                if t in range(4,8):
+                    if y_pred[t] == '0':
+                        list1[t] = 'O'
+                        y_pred = ''.join(list1)
+                    elif y_pred[t] == '5':
+                        list1[t] = 'S'
+                        y_pred = ''.join(list1)    
+                    elif y_pred[t] == '6':
+                        list1[t] = 'B'
+                        y_pred = ''.join(list1)
+                    elif y_pred[t] == '1':
+                        list1[t] = 'T'
+                        y_pred = ''.join(list1)   
+
         if len(y_test)<len(y_pred):
             y_test = y_test + ' '*(len(y_pred)-len(y_test))
             count = count + 1
@@ -196,6 +237,8 @@ if __name__ == "__main__":
         '''
         #расчет правильности с учетом позиции буквы в номере
         for t in range(len(y_pred)):
+            if y_pred[t] == 'O':
+                y_pred[t] == 0
             if y_pred[t] == y_test[t]:
                 score = score + 1
                 count = count + 1      
